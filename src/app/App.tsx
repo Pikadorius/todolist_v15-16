@@ -18,13 +18,14 @@ import {EntityStatusType} from '../features/TodolistsList/todolists-reducer';
 import SimpleSnackbar from '../components/SnackBar/SnackBar';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from '../features/Login/Login';
-import {authMe, logout} from './appReducer';
+import {logout} from './appReducer';
+import {authMe} from '../features/Login/authReducer';
 
 
 function App() {
 
     const appStatus = useAppSelector<EntityStatusType>(state => state.app.status)
-    const isLoggedIn = useAppSelector<boolean>(state => state.app.loggedIn)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLogged)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

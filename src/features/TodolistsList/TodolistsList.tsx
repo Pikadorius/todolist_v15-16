@@ -22,7 +22,7 @@ export const TodolistsList: React.FC = () => {
 
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
-    const isLoggedIn = useAppSelector<boolean>(state => state.app.loggedIn)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLogged)
 
     const dispatch = useAppDispatch()
 

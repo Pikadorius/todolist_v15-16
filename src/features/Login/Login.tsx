@@ -9,14 +9,14 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useAppDispatch, useAppSelector} from '../../app/store';
 import {Navigate} from 'react-router-dom';
-import {useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {RequestLoginType} from '../../api/todolists-api';
 import {login} from '../../app/appReducer';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 export const Login = () => {
-    const isLoggedIn = useAppSelector<boolean>(state => state.app.loggedIn)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLogged)
     const dispatch = useAppDispatch()
 
     const schema = yup.object({
@@ -28,8 +28,11 @@ export const Login = () => {
         register,
         handleSubmit,
         formState: {errors}
-    } = useForm<RequestLoginType>({resolver: yupResolver(schema)});
-    const onSubmit = (data: RequestLoginType) => dispatch(login(data))
+    } = useForm<RequestLoginType>({
+        resolver: yupResolver(schema),
+        mode: 'onTouched'
+    });
+    const onSubmit: SubmitHandler<RequestLoginType> = (data) => dispatch(login(data))
 
     if (isLoggedIn) {
         return <Navigate to={'/'}/>
@@ -53,13 +56,13 @@ export const Login = () => {
                         <TextField label="Email"
                                    margin="normal"
                                    {...register('email')}/>
-                        {errors.email && <div>{errors.email.message}</div>}
+                        {errors.email && <div style={{color:'red'}}>{errors.email.message}</div>}
                         <TextField type="password"
                                    label="Password"
                                    margin="normal"
                                    {...register('password')}
                         />
-                        {errors.password && <div>{errors.password.message}</div>}
+                        {errors.password && <div style={{color:'red'}}>{errors.password.message}</div>}
                         <FormControlLabel label={'Remember me'} control={<Checkbox/>} {...register('rememberMe')}/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
