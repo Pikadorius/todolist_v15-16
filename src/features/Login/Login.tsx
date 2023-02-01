@@ -27,7 +27,6 @@ export const Login = () => {
     const {
         register,
         handleSubmit,
-        watch,
         formState: {errors}
     } = useForm<RequestLoginType>({resolver: yupResolver(schema)});
     const onSubmit = (data: RequestLoginType) => dispatch(login(data))

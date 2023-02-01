@@ -36,8 +36,7 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <AppBar position="static">
+        <div className="App"><AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <Menu/>
