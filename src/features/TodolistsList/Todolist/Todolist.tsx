@@ -28,12 +28,15 @@ type PropsType = {
 export const Todolist = React.memo(function (props: PropsType) {
     console.log('Todolist called')
 
+    const isLogged = useAppSelector<boolean>(state => state.auth.isLogged)
     const isDisabled = props.entityStatus === 'loading'
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        const thunk = fetchTasksTC(props.id)
-        dispatch(thunk)
+        if (isLogged) {
+            const thunk = fetchTasksTC(props.id)
+            dispatch(thunk)
+        }
     }, [])
 
     const addTask = useCallback((title: string) => {
