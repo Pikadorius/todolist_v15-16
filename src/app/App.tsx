@@ -53,7 +53,7 @@ function App() {
                 <Routes>
                     <Route path={'/'} element={<TodolistsList/>}/>
                     <Route path={'/login'} element={<Login/>}/>
-                    <Route path={'/404'} element={<div style={{textAlign: 'center'}}>ERROR 404</div>}/>
+                    <Route path={'/404'} element={<h2 style={{textAlign: 'center', color:'red'}}>ERROR 404</h2>}/>
                     <Route path={'*'} element={<Navigate to={'/404'}/>}/>
                 </Routes>
             </Container>
