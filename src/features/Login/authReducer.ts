@@ -1,6 +1,7 @@
 import {AppThunkDispatch} from '../../app/store';
-import {authAPI} from '../../api/todolists-api';
-import {setAppError} from '../../app/appReducer';
+import {authAPI, RequestLoginType} from '../../api/todolists-api';
+import {setAppError, setAppStatus} from '../../app/appReducer';
+import {networkErrorHandler, responseErrorHandler} from '../../helpers/errorHandlers';
 
 type AuthInititalStateType = {
     isLogged: boolean
@@ -23,9 +24,36 @@ export const setLoggedIn = (isLogged: boolean) => ({type: 'SET_LOGGED', isLogged
 
 export const authMe = () => async (dispatch: AppThunkDispatch) => {
     const result = await authAPI.me()
-    if (result.data.resultCode===0) {
+    if (result.data.resultCode === 0) {
         dispatch(setLoggedIn(true))
     } else {
+        dispatch(setAppError(result.data.messages[0]))
+    }
+}
+
+export const login = (data: RequestLoginType) => async (dispatch: AppThunkDispatch) => {
+    dispatch(setAppStatus('loading'))
+    try {
+        const result = await authAPI.login(data)
+        if (result.data.resultCode === 0) {
+            dispatch(setLoggedIn(true))
+            dispatch(setAppStatus('succeeded'))
+        } else {
+            responseErrorHandler(result.data, dispatch)
+        }
+    } catch (e) {
+        networkErrorHandler(e, dispatch)
+    }
+}
+
+export const logout = () => async (dispatch: AppThunkDispatch) => {
+    dispatch(setAppStatus('loading'))
+    const result = await authAPI.logout()
+    if (result.data.resultCode === 0) {
+        dispatch(setAppStatus('succeeded'))
+        dispatch(setLoggedIn(false))
+    } else {
+        dispatch(setAppStatus('failed'))
         dispatch(setAppError(result.data.messages[0]))
     }
 }

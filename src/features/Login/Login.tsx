@@ -11,9 +11,9 @@ import {useAppDispatch, useAppSelector} from '../../app/store';
 import {Navigate} from 'react-router-dom';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {RequestLoginType} from '../../api/todolists-api';
-import {login} from '../../app/appReducer';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import {login} from './authReducer';
 
 export const Login = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLogged)

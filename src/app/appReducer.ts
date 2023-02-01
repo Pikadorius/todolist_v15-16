@@ -1,7 +1,4 @@
 import {EntityStatusType} from '../features/TodolistsList/todolists-reducer';
-import {AppThunkDispatch} from './store';
-import {authAPI, RequestLoginType} from '../api/todolists-api';
-import {setLoggedIn} from '../features/Login/authReducer';
 
 type AppInitialStateType = {
     status: EntityStatusType
@@ -34,26 +31,3 @@ export type AppActionType =
 
 
 
-export const login = (data: RequestLoginType) => async (dispatch: AppThunkDispatch) => {
-    dispatch(setAppStatus('loading'))
-    const result = await authAPI.login(data)
-    if (result.data.resultCode===0) {
-        dispatch(setLoggedIn(true))
-        dispatch(setAppStatus('succeeded'))
-    } else {
-        dispatch(setAppError(result.data.messages[0]))
-        dispatch(setAppStatus('failed'))
-    }
-}
-
-export const logout = () => async (dispatch: AppThunkDispatch) => {
-    dispatch(setAppStatus('loading'))
-    const result = await authAPI.logout()
-    if (result.data.resultCode===0) {
-        dispatch(setAppStatus('succeeded'))
-        dispatch(setLoggedIn(false))
-    } else {
-        dispatch(setAppStatus('failed'))
-        dispatch(setAppError(result.data.messages[0]))
-    }
-}

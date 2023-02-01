@@ -18,8 +18,7 @@ import {EntityStatusType} from '../features/TodolistsList/todolists-reducer';
 import SimpleSnackbar from '../components/SnackBar/SnackBar';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from '../features/Login/Login';
-import {logout} from './appReducer';
-import {authMe} from '../features/Login/authReducer';
+import {authMe, logout} from '../features/Login/authReducer';
 
 
 function App() {
